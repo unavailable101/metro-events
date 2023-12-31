@@ -1,0 +1,16 @@
+[
+    {
+        "uid": 1,
+        "name": "nina",
+        "username": "nina",
+        "email": "ninamargarette.catubig@cit.edu",
+        "password": "$2y$10$pK6oKoBZadrn8fNMRJmg1e5g\/J4u1SplsLEPa27cTFcifguRB81sW"
+    },
+    {
+        "uid": 2,
+        "name": "margarette",
+        "username": "marga",
+        "email": "marga@gmail.com",
+        "password": "$2y$10$2fI6kRJqh8BvtHOl.UwfFe3aZnMiOo\/7VkYuHjn8rUCSHjmfbeW4a"
+    }
+]

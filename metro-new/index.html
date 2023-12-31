@@ -1,0 +1,28 @@
+<h1>'.$eventDetail['eventName'].'</h1>
+<hr>
+<div class="overview-inner-container">
+    
+    <div class="overview-details">
+        <h2>'.$eventDetail['eventType'].'</h2>
+        <h4>'. $eventDetail['eventDate'] .' @ '. $eventDetail['eventTime'] .'</h4>
+        <hr>
+        <p>Admin: '. $adminName .'</p>
+        <p>Organizer: '. $orgName .'</p>
+        <p>Participants: </p>
+        <div class="list-participants">
+    
+        </div>  
+    </div>
+    
+    <div class="overview-excess">
+        <p>button here</p>
+        <h4>Reviews:</h4>
+        <div class="list-reviews">
+
+        </div>
+        <form method="POST" action="">
+            <textarea name="review"></textarea>
+            <input type="submit" value="Submit Review">
+        </form>
+    </div>
+</div>

@@ -1,0 +1,119 @@
+[
+    {
+        "notifId": 1,
+        "uid": 6,
+        "eventId": 3,
+        "toAdmin": true,
+        "type": "to-org",
+        "title": "Requesting to become an Event Organizer of ",
+        "body": " is requesting to become the organizer of the event."
+    },
+    {
+        "notifId": 2,
+        "uid": 6,
+        "eventId": 3,
+        "toAdmin": false,
+        "type": "got-accept",
+        "title": "Request Approved",
+        "body": "Your request to be an organizer of Gazing Up at Eternity, Looking Down at the World has been accepted. Yey."
+    },
+    {
+        "notifId": 3,
+        "uid": 4,
+        "eventId": 4,
+        "toAdmin": true,
+        "type": "to-org",
+        "title": "Requesting to become an Event Organizer of ",
+        "body": " is requesting to become the organizer of the event."
+    },
+    {
+        "notifId": 4,
+        "uid": 4,
+        "eventId": 3,
+        "toAdmin": false,
+        "type": "to-join",
+        "title": "Requesting to Join ",
+        "body": " is requesting to join the event."
+    },
+    {
+        "notifId": 5,
+        "uid": 4,
+        "eventId": 3,
+        "toAdmin": false,
+        "type": "got-accept",
+        "title": "Request to Join Approved",
+        "body": "Your request to join Gazing Up at Eternity, Looking Down at the World event has been accepted. Yey."
+    },
+    {
+        "notifId": 6,
+        "uid": 6,
+        "eventId": 4,
+        "toAdmin": true,
+        "type": "to-org",
+        "title": "Requesting to become an Event Organizer of ",
+        "body": " is requesting to become the organizer of the event."
+    },
+    {
+        "notifId": 7,
+        "uid": 1,
+        "eventId": 5,
+        "toAdmin": true,
+        "type": "to-org",
+        "title": "Requesting to become an Event Organizer of ",
+        "body": " is requesting to become the organizer of the event."
+    },
+    {
+        "notifId": 8,
+        "uid": 2,
+        "eventId": null,
+        "toAdmin": false,
+        "type": "event-cancel",
+        "title": "Cancelling of Event Gazing Up at Eternity, Looking Down at the World",
+        "body": "Gazing Up at Eternity, Looking Down at the World has been called of due to osmanthus wine taste the same as i remember. Apologies for the inconvenience."
+    },
+    {
+        "notifId": 9,
+        "uid": 2,
+        "eventId": 4,
+        "toAdmin": false,
+        "type": "to-join",
+        "title": "Requesting to Join ",
+        "body": " is requesting to join the event."
+    },
+    {
+        "notifId": 10,
+        "uid": 1,
+        "eventId": null,
+        "toAdmin": false,
+        "type": "event-cancel",
+        "title": "Cancelling of Event Ancient Treasures Unhearted",
+        "body": "Ancient Treasures Unhearted has been called of due to this is just a test, hope it works. Apologies for the inconvenience."
+    },
+    {
+        "notifId": 11,
+        "uid": 1,
+        "eventId": 2,
+        "toAdmin": true,
+        "type": "to-org",
+        "title": "Requesting to become an Event Organizer of ",
+        "body": " is requesting to become the organizer of the event."
+    },
+    {
+        "notifId": 12,
+        "uid": 1,
+        "eventId": 4,
+        "toAdmin": false,
+        "type": "to-join",
+        "title": "Requesting to Join ",
+        "body": " is requesting to join the event."
+    },
+    {
+        "notifId": 13,
+        "uid": 3,
+        "eventId": 2,
+        "toAdmin": true,
+        "type": "to-org",
+        "title": "Requesting to become an Event Organizer of ",
+        "body": " is requesting to become the organizer of the event."
+    }
+]

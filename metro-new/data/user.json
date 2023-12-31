@@ -1,0 +1,44 @@
+[
+    {
+        "uid": 1,
+        "name": "anin",
+        "username": "anin",
+        "email": "marga18nins@gmail.com",
+        "password": "$2y$10$Dz.Dx1fB8AhdiPJbJREjpuf7pnE6KA.BXorNpbZ.zKzR.5Z8TMTFC"
+    },
+    {
+        "uid": 2,
+        "name": "another",
+        "username": "username",
+        "email": "nina@gmail.com",
+        "password": "$2y$10$9DmD2iuhNnon6UA8uMxjseZG1VzSrax.cnrBWjLjJ8F2kzY1Q.JKO"
+    },
+    {
+        "uid": 3,
+        "name": "Rex Lapis",
+        "username": "zhongli",
+        "email": "osmanthuswine@gmail.com",
+        "password": "$2y$10$jXleUyQKdTvspFy1oqCFK.VL6EK7QKAStatTw2Dp96MxZgo41KSHu"
+    },
+    {
+        "uid": 4,
+        "name": "Mr Bean",
+        "username": "teddy",
+        "email": "test@test.com",
+        "password": "$2y$10$KyUYkB.3d3jP0HqkR90ebeMYoY7yWvTFbRYX2bWQoedqW24BqEkn6"
+    },
+    {
+        "uid": 5,
+        "name": "margarette",
+        "username": "marga",
+        "email": "hey@hey.com",
+        "password": "$2y$10$Zu5cBJeaGlD7wa\/7PiqLUu1ZRklm\/JZUFSIlfiFJ8AyhVLxBDJ97i"
+    },
+    {
+        "uid": 6,
+        "name": "Kim Dokja",
+        "username": "squid",
+        "email": "wannadie@gmail.com",
+        "password": "$2y$10$i.soJBXdChXwyxh6hLV4S.Yt.L4282HzWsLgqUEKQxUJQTNUlLBX6"
+    }
+]
