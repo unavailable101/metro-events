@@ -1,32 +1,54 @@
 [
     {
         "eventId": 1,
-        "adminId": 2,
-        "orgId": null,
-        "participants": [],
-        "eventName": "Melodies of an Endless Journey",
-        "eventType": "Live Concert",
-        "eventDate": "2024-01-20",
-        "eventTime": "08:00"
+        "adminId": 1,
+        "orgId": 1,
+        "participants": [
+            {
+                "partId": 1,
+                "uid": 5
+            },
+            {
+                "partId": 2,
+                "uid": 2
+            },
+            {
+                "partId": 3,
+                "uid": 6
+            }
+        ],
+        "eventName": "SLEEPLESS NIGHTS",
+        "eventType": "cramming event",
+        "eventDate": "2024-01-02",
+        "eventTime": "18:00"
     },
     {
         "eventId": 2,
-        "adminId": 2,
-        "orgId": 3,
-        "participants": [],
-        "eventName": "Fontinalia",
-        "eventType": "In-Game Genshin",
-        "eventDate": "2024-01-27",
-        "eventTime": "05:00"
+        "adminId": 1,
+        "orgId": 1,
+        "participants": [
+            {
+                "partId": 1,
+                "uid": 2
+            },
+            {
+                "partId": 2,
+                "uid": 6
+            }
+        ],
+        "eventName": "Melodies of an Endless Journey",
+        "eventType": "Live Concert",
+        "eventDate": "2024-01-20",
+        "eventTime": "12:00"
     },
     {
         "eventId": 4,
         "adminId": 1,
-        "orgId": 4,
+        "orgId": 1,
         "participants": [],
-        "eventName": "Twitch Drops",
-        "eventType": "Web Genshin",
-        "eventDate": "2024-01-02",
+        "eventName": "Roses and Muskets",
+        "eventType": "In-Game Genshin",
+        "eventDate": "2024-01-08",
         "eventTime": "05:00"
     },
     {
@@ -37,6 +59,16 @@
         "eventName": "Gazing Up at Eternity, Looking Down at the World",
         "eventType": "In-Game Genshin",
         "eventDate": "2024-01-31",
+        "eventTime": "05:00"
+    },
+    {
+        "eventId": 6,
+        "adminId": 2,
+        "orgId": null,
+        "participants": [],
+        "eventName": "Twitch Drops",
+        "eventType": "In-Game Genshin",
+        "eventDate": "2024-01-24",
         "eventTime": "05:00"
     }
 ]

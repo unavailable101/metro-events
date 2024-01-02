@@ -1,0 +1,53 @@
+[
+    {
+        "upVote": 0,
+        "downVote": 0,
+        "eventId": 1,
+        "done": []
+    },
+    {
+        "upVote": 1,
+        "downVote": 0,
+        "eventId": 2,
+        "done": [
+            {
+                "uid": 1,
+                "vote": "up"
+            }
+        ]
+    },
+    {
+        "upVote": 1,
+        "downVote": 0,
+        "eventId": 3,
+        "done": [
+            {
+                "uid": 1,
+                "vote": "up"
+            }
+        ]
+    },
+    {
+        "upVote": 0,
+        "downVote": 0,
+        "eventId": 4,
+        "done": []
+    },
+    {
+        "upVote": 1,
+        "downVote": 0,
+        "eventId": 5,
+        "done": [
+            {
+                "uid": 1,
+                "vote": "up"
+            }
+        ]
+    },
+    {
+        "upVote": 0,
+        "downVote": 0,
+        "eventId": 6,
+        "done": []
+    }
+]

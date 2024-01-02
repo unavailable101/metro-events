@@ -129,8 +129,8 @@
                     (($orgName !== $_SESSION['name']) ?
                         (($isPart == false) ?
                             '<input type="submit" name="submit" onclick="requestJoin(' . $event['eventId'] . ',' . $_SESSION['uid'] . ')" value="Request to Join">' :
-                            '<input type="submit" value="Already a Participant" readonly>') :
-                        '<input type="submit" value="Already an Organizer" readonly>')
+                            '<input type="submit" value="Already a Participant" disabled>') :
+                        '<input type="submit" value="Already an Organizer" disabled>')
                 )
                 . '
                 </div>';
@@ -360,8 +360,9 @@
                 echo "<script>alert('Failed to send request. Please try again.')</script>";
             }
 
-            //after sending notif kay diha paka mu add sa participants
+            removeNotif($new_notif['uid'], $new_notif['eventId']);
 
+            //after sending notif kay diha paka mu add sa participants
             $participants = $stored_events[$eventKey]['participants'];
 
             $lastP = end($participants);
@@ -386,7 +387,7 @@
             // echo '<script>alert("Already Accept")</script>';
             echo '
                 <script>
-                    showNotification("Already accepted requestor \nNote: Changing your mind is useless.")
+                    showNotification("Already accepted requestor")
                 </script>';
         }
     }
@@ -429,6 +430,9 @@
             } else {
                 echo "<script>alert('Failed to send request. Please try again.')</script>";
             }
+
+            removeNotif($new_notif['uid'], $new_notif['eventId']);
+                
             //end
         } else {
             // echo '<script>alert("Already Decline")</script>';
@@ -437,7 +441,7 @@
             //same ramn sd ni sila attributes, lahi lng ang message
             echo '
                 <script>
-                    showNotification("Already declined to requestor.");
+                    showNotification("Already declined to requestor");
                 </script>';
         }
     }
@@ -449,23 +453,57 @@
 
         foreach ($stored_notif as $notif) {
 
-            if ( $notif['type'] == "got-decline" || 
-                 $notif['type'] == "got-accept" ){
-                $type = true;
-            }
-            //also you is da problem
-            if ( $new_notif['title'] == "Request to Join Rejected" || 
-                $notif['title'] == "Request to Join Approved"){
-                $title = true;
-            }
-
             if ($notif['eventId'] == $new_notif['eventId'] &&
-                $notif['uid'] == $new_notif['uid'] && 
-                $type && $title) {
-                return true;
+                $notif['uid'] == $new_notif['uid']) {
+
+                //check sa similarities sa type and title
+                if ( 
+                    (
+                        $notif['type'] == "got-decline" || 
+                        $notif['type'] == "got-accept"
+                    ) &&
+                    (
+                        $new_notif['type'] == "got-decline" || 
+                        $new_notif['type'] == "got-accept"
+                    )
+                    ){
+                   $type = true;
+               }
+            //pwede walay type kay ma conflict sa pag accept/decline sa api-admin
+            //same baya ni silag type
+               if ( 
+                    (
+                        $notif['title'] == "Request to Join Rejected" || 
+                        $notif['title'] == "Request to Join Approved"
+                    ) &&
+                    (
+                        $new_notif['title'] == "Request to Join Rejected" || 
+                        $new_notif['title'] == "Request to Join Approved"
+                    )
+                    ){
+                   $title = true;
+               }
+               
+                if ($title && $type){
+                    return true;
+                }
             }
         }
         return false; 
+    }
+
+    function removeNotif($uid, $eventId) {
+        $notifJSON = "data/notif.json";
+        $stored_notif = json_decode(file_get_contents($notifJSON), true);
+
+        foreach ($stored_notif as $key => $notif) {
+            if ($notif['uid'] == $uid && $notif['eventId'] == $eventId) {
+                unset($stored_notif[$key]); // Remove the notification
+                break;
+            }
+        }
+
+        file_put_contents($notifJSON, json_encode(array_values($stored_notif), JSON_PRETTY_PRINT));
     }
 
     function createReview($uid, $eventId, $review){
@@ -490,5 +528,61 @@
         } else {
             echo "<script>alert('Failed to send request. Please try again.')</script>";
         }
+    }
+
+    function upVoteIncrement ($eventId, $uid, $vote){
+        
+        $votesJSON = "data/votes.json";
+        $stored_votes = json_decode(file_get_contents($votesJSON), true);
+        
+        $voteKey = array_search($eventId, array_column($stored_votes, 'eventId'));
+        
+        //increment upvote
+        $stored_votes[$voteKey]['upVote'] += 1;
+
+        // details sa kinsa ni vote
+        $newDone = [
+            "uid" => intval($uid),
+            "vote" => $vote
+        ];
+
+        // Append the new vote details
+        $stored_votes[$voteKey]['done'][] = $newDone;
+    
+
+        if (file_put_contents($votesJSON, json_encode($stored_votes, JSON_PRETTY_PRINT))) {
+            // Event participants updated successfully
+        } else {
+            echo "<script>alert('Failed to update event participants. Please try again.')</script>";
+        }
+
+    }
+
+    function downVoteIncrement ($eventId, $uid, $vote){
+        
+        
+        $votesJSON = "data/votes.json";
+        $stored_votes = json_decode(file_get_contents($votesJSON), true);
+        
+        $voteKey = array_search($eventId, array_column($stored_votes, 'eventId'));
+        //increment upvote
+        $stored_votes[$voteKey]['downVote'] += 1;
+
+        // details sa kinsa ni vote
+        $newDone = [
+            "uid" => intval($uid),
+            "vote" => $vote
+        ];
+
+        // Append the new vote details
+        $stored_votes[$voteKey]['done'][] = $newDone;
+    
+
+        if (file_put_contents($votesJSON, json_encode($stored_votes, JSON_PRETTY_PRINT))) {
+            // Event participants updated successfully
+        } else {
+            echo "<script>alert('Failed to update event participants. Please try again.')</script>";
+        }
+
     }
 ?>

@@ -1,18 +1,19 @@
 <?php
     session_start();
     include("api-admin.php");
-
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         toLogin();
     }
-?>
+    ?>
 
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Metro Events - Admin</title>
         <link rel="stylesheet" type="text/css" href="styles.css">
         <link rel="icon" type="image/x-icon" href="images/background/kitty.png">
-        
+
         <style>
             body{
                 background-image: url('images/background/cool.jpeg');
@@ -26,9 +27,9 @@
             }
         </style>
 
-    </head>
-    <body>
-        <div class="login-container">
+</head>
+<body>
+    <div class="login-container">
             <div class="left">
                 <h1>M E T R O  E V E N T S</h1>
             </div>
@@ -58,4 +59,4 @@
             </div>
         </div>
     </body>
-</html>
+    </html>

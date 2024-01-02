@@ -10,9 +10,11 @@
 <!DOCTYPE html>
 <html>
    <head>
+       <title>Metro Events - Admin</title>
         <link rel="stylesheet" href="styles.css" />
         <link rel="icon" type="image/x-icon" href="images/background/kitty.png">
-
+        <script src="script.js"></script>
+        
        <style>
            body{
                /* find appropriate bg for kanang mu fit */

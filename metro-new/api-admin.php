@@ -22,7 +22,14 @@
                }
             }
         }
-        // echo"<script>alert('Log in failed')</script>";
+        echo"<script>alert('Log in failed')</script>";
+        // echo '
+        //     <link rel="stylesheet" href="styles.css" />
+        //     <script src="script.js"></script>
+        //     <script>
+        //         showNotification("Log in failed. Please try again.");
+        //     </script>
+        // ';
     }
 
     function toRegister(){
@@ -62,7 +69,7 @@
     function createEvent() {
         global $eventJSON;
         global $stored_events;
-
+        
         $lastEvent = end($stored_events);
         $eventId = isset($lastEvent['eventId']) ? $lastEvent['eventId'] + 1 : 1; // Generate unique event ID
         
@@ -77,14 +84,31 @@
             "eventTime" => $_POST['eventTime']
         ];
         
+        $votesJSON = "data/votes.json";
+        $stored_votes = json_decode(file_get_contents($votesJSON), true);
+        
+        $new_vote = [
+            "upVote" => 0,
+            "downVote" => 0,
+            "eventId" => $eventId,
+            "done" => []
+        ];
+
         if (!isEventExist($new_event, $stored_events)) {
 
             array_push($stored_events, $new_event);
+            array_push($stored_votes, $new_vote);
 
             if (file_put_contents($eventJSON, json_encode($stored_events, JSON_PRETTY_PRINT))) {
                 //echo "<script>alert('Event creation successful')</script>";
                 // echo "<script> window.location.href= = 'create-events.php'; </script>";
                 // header("Location: create-events.php");
+            } else {
+                echo "<script>alert('Failed to create event. Please try again.')</script>";
+            }
+            //to put contents of votes
+            if (file_put_contents($votesJSON, json_encode($stored_votes, JSON_PRETTY_PRINT))) {
+                //echo "<script>alert('Event creation successful')</script>";
             } else {
                 echo "<script>alert('Failed to create event. Please try again.')</script>";
             }
@@ -279,7 +303,8 @@
                     <p>Admin: '.$adName.'</p>
                     <p>Organizer: '.$orgName.'</p>
                     <p>Participants: '. $noParts .'</p>
-                </div>';
+                </div>
+            ';
         }
     }
 
@@ -316,34 +341,44 @@
             "body" => "Your request to be an organizer of " . $eventName . " has been accepted. Yey." 
         ];
         
-        if (!isNotificationExist($new_notif, $stored_notif)) {
+        $orgExist = $stored_events[$eventKey]['orgId'];
+        if ($orgExist == null){
 
-            //send notif
-            array_push($stored_notif, $new_notif);
-
-            if (file_put_contents($notifJSON, json_encode($stored_notif, JSON_PRETTY_PRINT))) {
-                //echo "<script>alert('Event creation successful')</script>";
+            if (!isNotificationExist($new_notif, $stored_notif)) {            
+                //send notif
+                array_push($stored_notif, $new_notif);
+                
+                
+                if (file_put_contents($notifJSON, json_encode($stored_notif, JSON_PRETTY_PRINT))) {
+                    //echo "<script>alert('Event creation successful')</script>";
+                } else {
+                    echo "<script>alert('Failed to send request. Please try again.')</script>";
+                }
+                
+                //call removenotif if done answering
+                removeNotif($new_notif['uid'], $new_notif['eventId']);
+                
+                //update orgId or organizer of the event
+                $stored_events[$eventKey]['orgId'] = intval($requestorId);
+            
+                if (file_put_contents($eventJSON, json_encode($stored_events, JSON_PRETTY_PRINT))) {
+                    //echo "<script>alert('Event creation successful')</script>";
+                } else {
+                    echo "<script>alert('Failed to send request. Please try again.')</script>";
+                }
             } else {
-                echo "<script>alert('Failed to send request. Please try again.')</script>";
+                // echo '<script>alert("Already Answered!")</script>';
+                echo '
+                    <script>
+                        showNotification("Already replied requestor");
+                    </script>
+                ';
             }
-
-            //update orgId or organizer of the event
-            $stored_events[$eventKey]['orgId'] = intval($requestorId);
-
-            if (file_put_contents($eventJSON, json_encode($stored_events, JSON_PRETTY_PRINT))) {
-                //echo "<script>alert('Event creation successful')</script>";
-            } else {
-                echo "<script>alert('Failed to send request. Please try again.')</script>";
-            }
-        
-
-        //end here
         } else {
-            // echo '<script>alert("Already Answered!")</script>';
             echo '
-            <script>
-                showNotification("Already accepted requestor.");
-            </script>
+                <script>
+                    showNotification("Already has an organizer");
+                </script>
             ';
         }
     }
@@ -357,13 +392,16 @@
 
         global $stored_events;
         $eventName;
-        foreach($stored_events as $event){
-            if($eventId == $event['eventId']){
-                $eventName = $event['eventName'];
-                break;
-            }
-        }
 
+        // foreach($stored_events as $event){
+        //     if($eventId == $event['eventId']){
+        //         $eventName = $event['eventName'];
+        //         break;
+        //     }
+        // }
+
+        $eventKey = array_search($eventId, array_column($stored_events, 'eventId'));
+        $eventName = $stored_events[$eventKey]['eventName'];
     
         $new_notif = [
             "notifId" => $notifId,
@@ -374,52 +412,92 @@
             "title" => "Request Decline",
             "body" => "Your request to be an organizer of " . $eventName . " has been decline. So sad." 
         ];
+
         
-        if (!isNotificationExist($new_notif, $stored_notif)) {
+        $orgExist = $stored_events[$eventKey]['orgId'];
+        if ($orgExist == null){
 
-            array_push($stored_notif, $new_notif);
+            if (!isNotificationExist($new_notif, $stored_notif)) {
 
-            if (file_put_contents($notifJSON, json_encode($stored_notif, JSON_PRETTY_PRINT))) {
-                //echo "<script>alert('Event creation successful')</script>";
-            } else {
-                echo "<script>alert('Failed to send request. Please try again.')</script>";
+                array_push($stored_notif, $new_notif);
+
+                if (file_put_contents($notifJSON, json_encode($stored_notif, JSON_PRETTY_PRINT))) {
+                    //echo "<script>alert('Event creation successful')</script>";
+                } else {
+                    echo "<script>alert('Failed to send request. Please try again.')</script>";
+                }
+                
+                //call removenotif if done answering
+                removeNotif($new_notif['uid'], $new_notif['eventId']);
+                
+            //end here
             }
-        //end here
         } else {
             // echo '<script>alert("Already Answered!")</script>';
             echo '
-            <script>
-                showNotification("Already declined to requestor");
-            </script>
+                <script>
+                    showNotification("Already replied to requestor");
+                </script>
             ';
         }
     }
 
     //to avoid duplication of information to the json file
     function isNotificationExist($new_notif, $stored_notif) {
-        $type = true;
-        $title = true;
+        $type = false;
+        $title = false;
 
         foreach ($stored_notif as $notif) {
 
-            if ( $notif['type'] == $new_notif['type'] && $notif['type'] == "got-decline" || 
-                 $notif['type'] == "got-accept" ){
-                $type = false;
-            }
-            //you is da problem
-            if ( $notif['title'] == $new_notif['title'] || 
-                $notif['title'] == "Request Decline" || 
-                $notif['title'] == "Request Approved"){
-                $title = false;
-            }
-
             if ($notif['eventId'] == $new_notif['eventId'] &&
-                $notif['uid'] == $new_notif['uid'] && 
-                $type && $title) {
-                return true;
+                $notif['uid'] == $new_notif['uid']) {
+
+                //check sa similarities sa type and title
+                if ( 
+                    ( 
+                        $notif['type'] == "got-decline" || 
+                        $notif['type'] == "got-accept" 
+                    ) && 
+                    ( 
+                        $new_notif['type'] == "got-decline" || 
+                        $new_notif['type'] == "got-accept"
+                    )
+                    ){
+                    $type = true;
+                }
+                if ( 
+                    ( 
+                        $notif['title'] == "Request Decline" || 
+                        $notif['title'] == "Request Approved"
+                    ) && 
+                    ( 
+                        $new_notif['title'] == "Request Decline" || 
+                        $new_notif['title'] == "Request Approved"
+                    )
+                    ){
+                    $title = true;
+                }
+
+                if ($type && $title){
+                    return true;
+                }
             }
         }
         return false; 
+    }
+
+    function removeNotif($uid, $eventId) {
+        $notifJSON = "data/notif.json";
+        $stored_notif = json_decode(file_get_contents($notifJSON), true);
+
+        foreach ($stored_notif as $key => $notif) {
+            if ($notif['uid'] == $uid && $notif['eventId'] == $eventId) {
+                unset($stored_notif[$key]); // Remove the notification
+                break;
+            }
+        }
+
+        file_put_contents($notifJSON, json_encode(array_values($stored_notif), JSON_PRETTY_PRINT));
     }
 
 ?>

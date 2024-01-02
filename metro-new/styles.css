@@ -516,3 +516,57 @@ input[type="submit"]:hover{
     opacity: 0;
     pointer-events: none;
 }
+
+/* for votes */
+.with-votes{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0;
+    margin-bottom: -10px;
+    margin-top: -10px;
+}
+
+.with-votes center{
+    display: flex;
+    flex-direction: row;
+}
+
+.with-votes label{
+    display: flex;
+    flex-direction: row;
+    margin: 0px;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.with-votes label button{
+    width: auto;
+    height: auto;
+    border: none;
+    padding: 0px;
+    background: none;
+    margin: 0;
+    cursor: pointer;
+}
+
+.with-votes img{
+    width: 25px;
+    height: 25px;
+}
+
+.with-votes span{
+    margin-top: 0px;
+    margin-left: 5px;
+    /* margin-bottom: 500px; */
+}
+/* 
+input[type="radio"]:checked + .vote-text + img[src="images/background/upvote.png"] {
+    display: none;
+    content: url('images/background/upvote-check.png');
+}
+  
+input[type="radio"]:checked + .vote-text + img[src="images/background/downvote.png"] {
+    display: none;
+    content: url('images/background/downvote-check.png');
+} */

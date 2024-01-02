@@ -39,8 +39,8 @@ function requestJoin(eventId, uid){
             uid: uid
         },
         success: function(response) {
-            if (response.trim() === 'sent--request' ){
-                showNotification('Already sent a request')
+            if (response.trim() === 'sent-request' ){
+                showNotification('Already sent a request');
             } else {
                 console.log('Response from PHP function:', response);
             }

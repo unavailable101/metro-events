@@ -10,6 +10,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Metro Events - User</title>
         <link rel="stylesheet" href="styles.css" />
         <link rel="icon" type="image/x-icon" href="images/background/kitty.png">
 

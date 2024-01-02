@@ -57,12 +57,16 @@
         // notif para ni admin
         if ($_SESSION['isAdmin'] == true){
             
+            //i store ang mga notif ni current admin
+            // $processedNotifs = [];
+            
             foreach($reverseNotifs as $notif){
                 $username;
                 $reqId;
                 $eventName;
                 $eventId;
                 global $adminId;
+
 
                 //get name of requestor
                 foreach($stored_users as $user){
@@ -72,29 +76,44 @@
                         // break;
                     }
                 }
-
+                
+                
                 //receive notif of request to org ni
                 if($notif['toAdmin'] == true){
+                    
 
                     $eventDetails = getEventDetails($notif['eventId'], $stored_events);
 
                     if ($eventDetails && $eventDetails['adminId'] == $_SESSION['uid']){
-                        echo '
-                            <div class="notif-item">
-                                <h3>
-                                    '.$notif['title']. '"' .$eventDetails['eventName']. '"' .'
-                                </h3>
-                                <p>'.$username.$notif['body'].'</p>
-                                <form action="" method="POST">
-                                    <input type="hidden" name="requestorId" value = '.$reqId.' >
-                                    <input type="hidden" name="eventId" value = '.$eventDetails['eventId'].' >
-                                    
-                                    <input type="submit" name="accept" value="Accept">
-                                    <input type="submit" name="decline" value="Decline">
-                                </form>
-                            </div>
-                        ';
-                    }
+                        //add a line here
+                        //tang2 ang kanang replied notif para iwas duplication pd
+                        // $doneReply = false;
+
+                    //     if (!$doneReply){
+                    //     $doneReply = true;
+                    // }
+                    
+                        // if (!in_array([$notif['uid'], $eventDetails['eventId']], $processedNotifs)){
+                            echo '
+                                <div class="notif-item">
+                                    <h3>
+                                        '.$notif['title']. '"' .$eventDetails['eventName']. '"' .'
+                                    </h3>
+                                    <p>'.$username.$notif['body'].'</p>
+                                    <form action="" method="POST">
+                                        <input type="hidden" name="requestorId" value = '.$reqId.' >
+                                        <input type="hidden" name="eventId" value = '.$eventDetails['eventId'].' >
+                                        
+                                        <input type="submit" name="accept" value="Accept">
+                                        <input type="submit" name="decline" value="Decline">
+                                    </form>
+                                </div>
+                            ';
+                        }
+                        //i add ang mga notif ni admin
+                        // $processedNotifs[] = [$notif['uid'], $eventDetails['eventId']];
+                        // var_dump($processedNotifs);
+                    // }
                 }
 
             }

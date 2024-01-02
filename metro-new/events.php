@@ -11,6 +11,15 @@
             createReview($_SESSION['uid'], $eventId, $review);
         }
 
+        if (isset($_POST['upvote'])){
+            // echo '<script>console.log("called");</script>';
+            upVoteIncrement($_GET['eventId'], $_SESSION['uid'], "up");
+        }
+
+        if (isset($_POST['downvote'])){
+            downVoteIncrement($_GET['eventId'], $_SESSION['uid'], "down");
+        }
+
         //di mu gana ang request org and request to join buttons sa ani na file TTOTT
         //i tried eveything, but it wont work
 
@@ -33,6 +42,7 @@
     input[type="submit"]{
         width:80%;
     }
+
 </style>
 
 <div class="overview-container">
@@ -41,9 +51,11 @@
         $eventJSON = "data/events.json";
         $adminJSON = "data/admin.json";
         $userJSON = "data/user.json";
+        $votesJSON = "data/votes.json";
         $stored_event = json_decode(file_get_contents($eventJSON), true);
         $stored_admin = json_decode(file_get_contents($adminJSON), true);
         $stored_users = json_decode(file_get_contents($userJSON), true);
+        $stored_votes = json_decode(file_get_contents($votesJSON), true);
 
         if (isset($_GET['eventId'])) {
             // Get the value of eventId from the URL
@@ -52,6 +64,22 @@
             //get event by eventId
             $eventKey = array_search($eventId, array_column($stored_event, 'eventId'));
             $eventDetail = $stored_event[$eventKey];
+
+
+            //for upvotes/downvotes
+            $voteKey = array_search($eventId, array_column($stored_votes, 'eventId'));
+            $voteDetail = $stored_votes[$voteKey];
+
+            //check if current user already voted
+            //if naa, ang array inside ['done'] kay ma gamit
+            //this is to determine if unsa na vote ang gi pili sa current user, if naka pili mn
+            $isVoted = null;
+            foreach($voteDetail['done'] as $vote){
+                if ($vote['uid'] ==  $_SESSION['uid']){
+                    $isVoted = $vote;
+                    break;
+                }
+            }
 
             $adminKey = array_search($eventDetail['adminId'], array_column($stored_admin, 'uid'));
             $orgKey = array_search($eventDetail['orgId'], array_column($stored_users, 'uid'));
@@ -85,7 +113,69 @@
                     
                     <div class="overview-details">
                         <h2><?=  $eventDetail['eventType'] ?></h2>
-                        <h4><?=  $eventDetail['eventDate'] ?> @ <?=  $eventDetail['eventTime'] ?></h4>
+                        <div class="with-votes">
+                            <h4><?=  $eventDetail['eventDate'] ?> @ <?=  $eventDetail['eventTime'] ?></h4>
+                            <form method="POST" action="">
+                                <center>
+                                    <label>
+                                        <?php if ($isVoted == null) {
+                                                // echo '<input type="image" name="upvote" src="images/background/upvote.png" method="POST">';
+                                                echo '
+                                                    <button type="submit" name="upvote">
+                                                        <img src="images/background/upvote.png">
+                                                    </button>
+                                                ';
+                                            } else {
+                                                if ($isVoted['vote'] == 'up'){
+                                                    // echo '<input type="image" src="images/background/upvote-check.png" disabled>';
+                                                    echo '
+                                                        
+                                                            <img src="images/background/upvote-check.png">
+                                                        
+                                                    ';
+                                                } else {
+                                                    // echo '<input type="image" name="upvote" src="images/background/upvote.png" method="POST">';
+                                                    echo '
+                                                        
+                                                            <img src="images/background/upvote.png">
+                                                        
+                                                    ';
+                                                }
+                                            } ?>
+                                        <span>
+                                            <?= $voteDetail['upVote'] ?>
+                                        </span>
+                                    </label>
+                                    <label>
+                                        <?php if ($isVoted == null) {
+                                                // echo '<input type="image" name="downvote" src="images/background/downvote.png" method="POST">';
+                                                echo '
+                                                    <button type="submit" name="downvote">
+                                                        <img src="images/background/downvote.png">
+                                                    </button>
+                                                ';
+                                            } else {
+                                                if ($isVoted['vote'] == 'down'){
+                                                    // echo '<input type="image" src="images/background/downvote-check.png" disabled>';
+                                                    echo '
+                                                        
+                                                            <img src="images/background/downvote-check.png">
+                                                        
+                                                    ';
+                                                } else {
+                                                    // echo '<input type="image" name="downvote" src="images/background/downvote.png" method="POST">';
+                                                    echo '
+                                                        
+                                                            <img src="images/background/downvote.png">
+                                                        
+                                                    ';
+                                                }
+                                            } ?>
+                                        <span> <?= $voteDetail['downVote'] ?> </span>
+                                    </label>
+                                </center>
+                            </form>
+                        </div>
                         <hr>
                         <p>Admin: <?=  $adminName ?></p>
                         <p>Organizer: <?=  $orgName ?></p>
